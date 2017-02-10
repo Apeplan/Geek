@@ -121,7 +121,7 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
         Bundle bundle = getBundle();
         if (null != bundle) {
             mShotId = bundle.getLong("shotId");
-            mPresenter.loadShot(Api.EVENT_BEGIN, mShotId);
+            mPresenter.loadShot(Api.ACTION_BEGIN, mShotId);
         }
     }
 
@@ -187,7 +187,7 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
 
     @Override
     public void showLoading(int action, String msg) {
-        if (Api.EVENT_BEGIN == action) {
+        if (Api.ACTION_BEGIN == action) {
             showDialog();
         }
     }

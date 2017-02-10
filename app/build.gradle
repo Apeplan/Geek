@@ -14,9 +14,9 @@ android {
     //配置keystore签名
     signingConfigs {
         release {
-            storeFile file("drib.jks")
+            storeFile file("geek.jks")
             storePassword "920410"
-            keyAlias "设计"
+            keyAlias "奇客"
             keyPassword "920410"
         }
     }

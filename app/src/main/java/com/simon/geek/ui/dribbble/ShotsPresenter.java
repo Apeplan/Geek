@@ -4,9 +4,9 @@ import com.simon.agiledevelop.mvpframe.RxPresenter;
 import com.simon.agiledevelop.ResultSubscriber;
 import com.simon.agiledevelop.log.LLog;
 import com.simon.geek.data.Api;
-import com.simon.geek.data.DribbbleDataManger;
+import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.ShotEntity;
-import com.simon.geek.data.remote.DribbbleService;
+import com.simon.geek.data.remote.DataService;
 
 import java.util.List;
 
@@ -25,11 +25,11 @@ public class ShotsPresenter extends RxPresenter<ShotsContract.View, List<ShotEnt
         shotsView.setPresenter(this);
     }
 
-    public void loadShotsList(int page, @DribbbleService.ShotType String list, @DribbbleService
-            .ShotTimeframe String timeframe, @DribbbleService.ShotSort String sort, final int
+    public void loadShotsList(int page, @DataService.ShotType String list, @DataService
+            .ShotTimeframe String timeframe, @DataService.ShotSort String sort, final int
                                       action) {
 
-        Observable<List<ShotEntity>> shotsList = DribbbleDataManger.getInstance().getShotsList
+        Observable<List<ShotEntity>> shotsList = DataManger.getInstance().getShotsList
                 (page, list, timeframe, sort);
 
         subscribe(shotsList, new ResultSubscriber<List<ShotEntity>>() {
@@ -52,9 +52,9 @@ public class ShotsPresenter extends RxPresenter<ShotsContract.View, List<ShotEnt
 
             @Override
             public void onResult(List<ShotEntity> shotEntities) {
-                if (action == Api.EVENT_REFRESH) {
+                if (action == Api.ACTION_REFRESH) {
                     getView().renderRefrshShotsList(shotEntities);
-                } else if (action == Api.EVENT_MORE) {
+                } else if (action == Api.ACTION_MORE) {
                     getView().renderMoreShotsList(shotEntities);
                 } else {
                     getView().renderShotsList(shotEntities);

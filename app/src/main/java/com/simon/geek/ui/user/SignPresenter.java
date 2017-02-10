@@ -3,7 +3,7 @@ package com.simon.geek.ui.user;
 import com.simon.agiledevelop.mvpframe.RxPresenter;
 import com.simon.agiledevelop.ResultSubscriber;
 import com.simon.agiledevelop.log.LLog;
-import com.simon.geek.data.DribbbleDataManger;
+import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.User;
 import com.simon.geek.util.DribbblePrefs;
 
@@ -22,7 +22,7 @@ public class SignPresenter extends RxPresenter<SignInContract.View, User> {
     }
 
     public void getUserToken(final String token) {
-        Observable<User> tokenAndUser = DribbbleDataManger.getInstance().getTokenAndUser(token);
+        Observable<User> tokenAndUser = DataManger.getInstance().getTokenAndUser(token);
         subscribe(tokenAndUser, new ResultSubscriber<User>() {
             @Override
             public void onStartRequest() {

@@ -10,22 +10,15 @@ package com.simon.geek.data;
 
 public class Api {
 
-    public static final int EVENT_BEGIN = 0x520;
-    public static final int EVENT_REFRESH = 0x521;
-    public static final int EVENT_MORE = 0x522;
-    public static final int EVENT_OTHER = 0x523;
-
-    public static final int EVENT_ADD_DATA = EVENT_BEGIN + 100;// 添加数据
-    public static final int EVENT_DELETE_DATA = EVENT_BEGIN + 101;// 删除数据
-    public static final int EVENT_MODIFY_DATA = EVENT_BEGIN + 102;// 修改数据
-    public static final int EVENT_QUERY_DATA = EVENT_BEGIN + 103;// 查询数据
-    public static final int EVENT_COMMIT_DATA = EVENT_BEGIN + 104;// 查询数据
-
+    public static final int ACTION_BEGIN = 0x520;
+    public static final int ACTION_REFRESH = 0x521;
+    public static final int ACTION_MORE = 0x522;
+    public static final int ACTION_OTHER = 0x523;
 
     public static final String SIGNIN_URL = "https://dribbble.com/";
     public static final String DRIBBBLE_BASE_URL = "https://api.dribbble.com/v1/";
 
-    public static final String BAIDU_IMG = "http://image.baidu.com/channel/listjson";
+    public static final String BAIDU_IMG = "http://image.baidu.com/";
 
     public static final String CLIENT_ID =
             "f8918c16dc8db1eb74f1377271ad291c876d3a4edc90c473590a9e2f6df1fa5f";

@@ -81,7 +81,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         Bundle bundle = getBundle();
         if (null != bundle) {
             long userId = bundle.getLong("userId");
-            mPresenter.loadUserInfo(Api.EVENT_BEGIN, userId);
+            mPresenter.loadUserInfo(Api.ACTION_BEGIN, userId);
         }
     }
 
@@ -135,7 +135,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void showLoading(int action, String msg) {
-        if (Api.EVENT_BEGIN == action) {
+        if (Api.ACTION_BEGIN == action) {
             showDialog();
         }
     }

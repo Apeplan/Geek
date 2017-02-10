@@ -21,7 +21,7 @@ import com.simon.agiledevelop.utils.ToastHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.ShotEntity;
-import com.simon.geek.data.remote.DribbbleService;
+import com.simon.geek.data.remote.DataService;
 import com.simon.geek.util.DialogHelp;
 import com.simon.geek.widget.loadingdia.SpotsDialog;
 
@@ -36,13 +36,13 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
     private ShotsAdapter mAdapter;
     private ShotsPresenter mPresenter;
     private
-    @DribbbleService.ShotType
+    @DataService.ShotType
     String list = "";
     private
-    @DribbbleService.ShotTimeframe
+    @DataService.ShotTimeframe
     String timeframe = "";
     private
-    @DribbbleService.ShotSort
+    @DataService.ShotSort
     String sort = "";
     private SpotsDialog mLoadingDialog;
     private SwipeRefreshLayout mRefreshLayout;
@@ -79,7 +79,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
             @Override
             public void onRefresh() {
                 mPageNo = 1;
-                request(Api.EVENT_REFRESH, false);
+                request(Api.ACTION_REFRESH, false);
             }
         });
 
@@ -118,7 +118,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
         });
 
         mPageNo = 1;
-        request(Api.EVENT_BEGIN, false);
+        request(Api.ACTION_BEGIN, false);
     }
 
     @Override
@@ -127,24 +127,24 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
         mPageNo = 1;
         switch (item.getItemId()) {
             case R.id.action_current:
-                timeframe = DribbbleService.SHOT_TIMEFRAME_NOW;
-                request(Api.EVENT_BEGIN, true);
+                timeframe = DataService.SHOT_TIMEFRAME_NOW;
+                request(Api.ACTION_BEGIN, true);
                 break;
             case R.id.action_week:
-                timeframe = DribbbleService.SHOT_TIMEFRAME_WEEK;
-                request(Api.EVENT_BEGIN, true);
+                timeframe = DataService.SHOT_TIMEFRAME_WEEK;
+                request(Api.ACTION_BEGIN, true);
                 break;
             case R.id.action_month:
-                timeframe = DribbbleService.SHOT_TIMEFRAME_MONTH;
-                request(Api.EVENT_BEGIN, true);
+                timeframe = DataService.SHOT_TIMEFRAME_MONTH;
+                request(Api.ACTION_BEGIN, true);
                 break;
             case R.id.action_year:
-                timeframe = DribbbleService.SHOT_TIMEFRAME_YEAR;
-                request(Api.EVENT_BEGIN, true);
+                timeframe = DataService.SHOT_TIMEFRAME_YEAR;
+                request(Api.ACTION_BEGIN, true);
                 break;
             case R.id.action_ever:
-                timeframe = DribbbleService.SHOT_TIMEFRAME_EVER;
-                request(Api.EVENT_BEGIN, true);
+                timeframe = DataService.SHOT_TIMEFRAME_EVER;
+                request(Api.ACTION_BEGIN, true);
                 break;
             case R.id.menu_filter:
                 showFilteringPopUpMenu();
@@ -162,40 +162,40 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
                 mPageNo = 1;
                 switch (item.getItemId()) {
                     case R.id.filter_debuts:
-                        list = DribbbleService.SHOT_TYPE_DEBUTS;
-                        request(Api.EVENT_BEGIN, true);
+                        list = DataService.SHOT_TYPE_DEBUTS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_playoffs:
-                        list = DribbbleService.SHOT_TYPE_PLAYOFFS;
-                        request(Api.EVENT_BEGIN, true);
+                        list = DataService.SHOT_TYPE_PLAYOFFS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_rebounds:
-                        list = DribbbleService.SHOT_TYPE_REBOUNDS;
-                        request(Api.EVENT_BEGIN, true);
+                        list = DataService.SHOT_TYPE_REBOUNDS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_animated:
-                        list = DribbbleService.SHOT_TYPE_ANIMATED;
-                        request(Api.EVENT_BEGIN, true);
+                        list = DataService.SHOT_TYPE_ANIMATED;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_attachments:
-                        list = DribbbleService.SHOT_TYPE_ATTACHMENTS;
-                        request(Api.EVENT_BEGIN, true);
+                        list = DataService.SHOT_TYPE_ATTACHMENTS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_hot:
-                        sort = DribbbleService.SHOT_SORT_POPULARITY;
-                        request(Api.EVENT_BEGIN, true);
+                        sort = DataService.SHOT_SORT_POPULARITY;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_recent:
-                        sort = DribbbleService.SHOT_SORT_RECENT;
-                        request(Api.EVENT_BEGIN, true);
+                        sort = DataService.SHOT_SORT_RECENT;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_views:
-                        sort = DribbbleService.SHOT_SORT_VIEWS;
-                        request(Api.EVENT_BEGIN, true);
+                        sort = DataService.SHOT_SORT_VIEWS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
                     case R.id.filter_comments:
-                        sort = DribbbleService.SHOT_SORT_COMMENTS;
-                        request(Api.EVENT_BEGIN, true);
+                        sort = DataService.SHOT_SORT_COMMENTS;
+                        request(Api.ACTION_BEGIN, true);
                         break;
 
                     default:
@@ -259,7 +259,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
 
     @Override
     public void showLoading(int action, String msg) {
-        if (Api.EVENT_BEGIN == action) {
+        if (Api.ACTION_BEGIN == action) {
             showDialog();
         }
     }
@@ -282,7 +282,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
     @Override
     public void onLoadMore() {
         mPageNo++;
-        request(Api.EVENT_MORE, false);
+        request(Api.ACTION_MORE, false);
     }
 
     private void showDialog() {

@@ -3,7 +3,7 @@ package com.simon.geek.ui.dribbble;
 import com.simon.agiledevelop.mvpframe.RxPresenter;
 import com.simon.agiledevelop.ResultSubscriber;
 import com.simon.agiledevelop.log.LLog;
-import com.simon.geek.data.DribbbleDataManger;
+import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.ShotEntity;
 
 import rx.Observable;
@@ -23,7 +23,7 @@ public class ShotDetailPresenter extends RxPresenter<ShotDetailContract.View, Sh
 
     public void loadShot(final int action, long id) {
 
-        Observable<ShotEntity> shot = DribbbleDataManger.getInstance().getShot(id);
+        Observable<ShotEntity> shot = DataManger.getInstance().getShot(id);
         subscribe(shot, new ResultSubscriber<ShotEntity>() {
             @Override
             public void onStartRequest() {

@@ -6,17 +6,10 @@ import com.simon.agiledevelop.ServiceHelper;
 import com.simon.agiledevelop.log.LLog;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.SearchConverter;
-import com.simon.geek.data.model.AttachmentEntity;
-import com.simon.geek.data.model.BucketEntity;
-import com.simon.geek.data.model.CommentEntity;
-import com.simon.geek.data.model.FollowersEntity;
-import com.simon.geek.data.model.LikeEntity;
-import com.simon.geek.data.model.ProjectEntity;
+import com.simon.geek.data.model.BDEntity;
 import com.simon.geek.data.model.ShotEntity;
-import com.simon.geek.data.model.TeamEntity;
 import com.simon.geek.data.model.TokenEntity;
 import com.simon.geek.data.model.User;
-import com.simon.geek.data.model.UserLikeEntity;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -35,8 +28,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -47,7 +38,7 @@ import rx.Observable;
  * Created on: 2016/8/22 14:09
  */
 
-public interface DribbbleService {
+public interface DataService {
 
     /**
      * 获取用户已授权的token
@@ -88,114 +79,12 @@ public interface DribbbleService {
     Observable<ShotEntity> getShot(@Path("id") long shotId);
 
     /**
-     * 根据 shotId 获取评论
-     *
-     * @param shotId
-     * @return
-     */
-    @GET("shots/{id}/{type}")
-    Observable<List<CommentEntity>> getShotComments(@Path("id") long shotId, @Path("type")
-            String type, @Query("page") int page);
-
-    /**
-     * 更新一条评论
-     *
-     * @param shotId
-     * @param cid
-     * @param comment
-     * @return
-     */
-    @PUT("shots/{id}/comments/{cid}")
-    Observable<CommentEntity> updateComment(@Path("id") long shotId, @Path("cid") int cid, @Part
-            ("comment") String comment);
-
-    /**
-     * 创建一条评论
-     *
-     * @param shotId
-     * @param content
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("shots/{id}/comments")
-    Observable<CommentEntity> createComment(@Path("id") long shotId, @Field("body") String content);
-
-    /**
-     * 获取用户的 buckets
-     *
-     * @return
-     */
-    @GET("user/buckets")
-    Observable<List<BucketEntity>> getUserBuckets();
-
-    /**
-     * 获取用户的 Shots
-     *
-     * @return
-     */
-    @GET("user/shots")
-    Observable<List<ShotEntity>> getUserShots(@Query("page") int page);
-
-    /**
-     * 获取用户的 Followers
-     *
-     * @return
-     */
-    @GET("user/followers")
-    Observable<List<FollowersEntity>> getUserFollowers(@Query("page") int page);
-
-    /**
-     * 获取用户的 Likes
-     *
-     * @return
-     */
-    @GET("user/likes")
-    Observable<List<UserLikeEntity>> getUserLikes(@Query("page") int page);
-
-    /**
-     * 获取用户的 Likes
-     *
-     * @return
-     */
-    @GET("user/projects")
-    Observable<List<ProjectEntity>> getUserProjects();
-
-    /**
-     * 获取用户的 Likes
-     *
-     * @return
-     */
-    @GET("user/teams")
-    Observable<List<TeamEntity>> getUserTeams();
-
-    /**
      * 根据用户的Id获取用户的信息
      *
      * @return
      */
     @GET("users/{usersId}")
     Observable<User> getUsers(@Path("usersId") long id);
-
-
-    /**
-     * 将 Shot 添加为喜欢
-     *
-     * @return
-     */
-    @POST("shots/{id}/like")
-    @FormUrlEncoded
-    Observable<LikeEntity> addLike(@Path("id") long shotId, @Field("empty") Long em);
-
-    @GET("shots/{id}/likes")
-    Observable<List<LikeEntity>> getShotLikes(@Path("id") long shotId, @Query("page") int page);
-
-    @GET("shots/{id}/attachments")
-    Observable<List<AttachmentEntity>> getShotAttach(@Path("id") long shotId, @Query("page") int
-            page);
-
-    @GET("{type}/{id}/buckets")
-    Observable<List<BucketEntity>> getBuckets(@Path("type") String type, @Path("id") long
-            shotId, @Query("page") int page);
 
     @GET("search")
     Observable<List<ShotEntity>> search(@Query("q") String query,
@@ -273,21 +162,32 @@ public interface DribbbleService {
     @interface SortOrder {
     }
 
+
+    /*
+    明星
+    http://image.baidu.com/channel/listjson?pn=0&rn=30&tag1=明星&tag2=全部&ie=utf8
+    http://image.baidu.com/channel/listjson?pn=0&rn=30&tag1=明星&tag2=全部&ftags=女明星&ie=utf8
+    http://image.baidu.com/channel/listjson?pn=0&rn=30&tag1=明星&tag2=全部&ftags=女明星##内地&ie=utf8
+     */
+    @GET("channel/listjson")
+    Observable<BDEntity> images(@Query("tag1") String tag1, @Query("tag2") String tag2, @Query
+            ("pn") int page, @Query("rn") int row, @Query("ie") String ie);
+
     /**
      * 设置一个新服务
      */
     class Creator {
-        public static DribbbleService dribbbleApi() {
+        public static DataService dribbbleApi() {
 //            String token = DribbbleApp.spHelper().getString(Api.OAUTH_ACCESS_TOKEN);
             Headers.Builder headers = new Headers.Builder();
             Headers authorization = headers.add("Authorization", "Bearer " + Api.ACCESS_TOKEN)
                     .build();
 
-            return ServiceHelper.getInstance().creator(Api.DRIBBBLE_BASE_URL, DribbbleService
+            return ServiceHelper.getInstance().creator(Api.DRIBBBLE_BASE_URL, DataService
                     .class, authorization);
         }
 
-        public static DribbbleService signIn() {
+        public static DataService signIn() {
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.addInterceptor(new Interceptor() {
@@ -308,16 +208,20 @@ public interface DribbbleService {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(client)
                     .build();
-            return retrofit.create(DribbbleService.class);
+            return retrofit.create(DataService.class);
         }
 
-        public static DribbbleService searchApi() {
+        public static DataService searchApi() {
             return new Retrofit.Builder()
                     .baseUrl(Api.SIGNIN_URL)
                     .addConverterFactory(new SearchConverter.Factory())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
-                    .create((DribbbleService.class));
+                    .create((DataService.class));
+        }
+
+        public static DataService imageService() {
+            return ServiceHelper.getInstance().creator(Api.BAIDU_IMG, DataService.class);
         }
 
     }

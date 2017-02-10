@@ -3,7 +3,7 @@ package com.simon.geek.ui.user;
 import com.simon.agiledevelop.mvpframe.RxPresenter;
 import com.simon.agiledevelop.ResultSubscriber;
 import com.simon.agiledevelop.log.LLog;
-import com.simon.geek.data.DribbbleDataManger;
+import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.User;
 
 import rx.Observable;
@@ -21,7 +21,7 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.View, User> 
 
     public void loadUserInfo(final int action, long userId) {
 
-        Observable<User> usersInfo = DribbbleDataManger.getInstance().getUsersInfo(userId);
+        Observable<User> usersInfo = DataManger.getInstance().getUsersInfo(userId);
         subscribe(usersInfo, new ResultSubscriber<User>() {
             @Override
             public void onStartRequest() {
