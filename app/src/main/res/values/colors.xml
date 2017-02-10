@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">#51404A</color>
+    <color name="colorPrimaryDark">#51404A</color>
+    <color name="colorAccent">#51404A</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FFFF0000</color>
+    <color name="green">#FF00FF00</color>
+    <color name="black">#000000</color>
+    <color name="blue">#f00f</color>
+    <color name="grey_main">#D5DEE5</color>
+    <color name="white_main">#FDFAF5</color>
+
+    <color name="orange_500">#FF9800</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="g_default_loading_bg">#e0e0e0</color>
+
+    <array name="g_default_loading_fg">
+        <item>@color/cyan_500</item>
+        <item>@color/purple_500</item>
+        <item>@color/blue_500</item>
+        <item>@color/orange_500</item>
+        <item>@color/pink_500</item>
+    </array>
+
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_888888">#888888</color>
+    <color name="color_999999">#999999</color>
+
+
+</resources>

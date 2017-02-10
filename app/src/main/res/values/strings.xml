@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">奇客</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="loading">正在加载...</string>
+
+    <string name="retry">轻触屏幕重试</string>
+    <string name="unauth">你还没有登录</string>
+    <string name="auth">去登录</string>
+
+    <string name="action_current">当前</string>
+    <string name="action_week">一周内</string>
+    <string name="action_month">一月内</string>
+    <string name="action_year">一年内</string>
+    <string name="action_ever">时间不限</string>
+
+    <string name="dribbble">首页</string>
+    <string name="images">图片</string>
+    <string name="about">关于</string>
+
+    <string name="limit_hot">最热</string>
+    <string name="limit_recent">最新</string>
+    <string name="limit_views">查看最多</string>
+    <string name="limit_comments">评论最多</string>
+
+    <string name="limit_debuts">首秀</string>
+    <string name="limit_playoffs">季度作品</string>
+    <string name="limit_rebounds">再创作</string>
+    <string name="limit_animated">GIF动画</string>
+    <string name="limit_attachments">带有附件</string>
+    <string name="double_click_exit">再次点击退出精美设计</string>
+
+    <string name="share">分享</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_filter">Filter</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- content authorities -->
+    <string name="about_dribbble_1">What are you working on? Dribbble is a community of designers answering that question each day. Web designers, graphic designers, illustrators, icon artists, typographers, logo designers, and other creative types share small screenshots (shots) that show their work, process, and current projects.</string>
+    <string name="about_dribbble_2">Dribbble is a place to show and tell, promote, discover, and explore design.</string>
+    <string name="about_dribbble_3">Founded in 2009, Dribbble began as a side project and is now a Tiny, bootstrapped and profitable company helping the world’s design talent share their creations and get hired. Dribbble has become a go-to resource for discovering and connecting with designers around the globe.</string>
+
+</resources>
