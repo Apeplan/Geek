@@ -7,12 +7,23 @@
         <item>#dd6495</item>
         <item>#72d3b4</item>
     </string-array>-->
-      <string-array name="default_preview">
+    <string-array name="default_preview">
         <item>#00000000</item>
         <item>#00000000</item>
         <item>#00000000</item>
         <item>#00000000</item>
         <item>#00000000</item>
+    </string-array>
+
+    <string-array name="image_category_list">
+        <item>汽车</item>
+        <item>摄影</item>
+        <item>动漫</item>
+        <item>美女</item>
+        <item>美食</item>
+        <item>宠物</item>
+        <item>设计</item>
+        <item>壁纸</item>
     </string-array>
 
 </resources>

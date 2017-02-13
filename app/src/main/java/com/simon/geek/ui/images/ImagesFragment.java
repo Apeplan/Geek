@@ -13,6 +13,7 @@ import com.simon.agiledevelop.state.StateView;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.BDImageEntity;
+import com.simon.geek.listener.OnPagerSelectedListener;
 
 import java.util.List;
 
@@ -25,13 +26,15 @@ import java.util.List;
  */
 
 public class ImagesFragment extends BaseFragment<ImagesPresenter> implements ImagesContract.View,
-        RecycledAdapter.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+        RecycledAdapter.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener,
+        OnPagerSelectedListener {
 
     private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private ImagesAdapter mAdapter;
     private int mPageNo = 0;
     private int mPageRow = 20;
+    private String mCurrCategory = "汽车";
 
     public static ImagesFragment newInstance() {
         Bundle args = new Bundle();
@@ -77,7 +80,7 @@ public class ImagesFragment extends BaseFragment<ImagesPresenter> implements Ima
 
     @Override
     protected void initEventAndData() {
-        mPresenter.getImages("美女", "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
+        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
     }
 
     @Override
@@ -135,12 +138,19 @@ public class ImagesFragment extends BaseFragment<ImagesPresenter> implements Ima
     @Override
     public void onLoadMore() {
         mPageNo++;
-        mPresenter.getImages("美女", "全部", mPageNo, mPageRow, Api.ACTION_MORE);
+        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_MORE);
     }
 
     @Override
     public void onRefresh() {
         mPageNo = 0;
-        mPresenter.getImages("美女", "全部", mPageNo, mPageRow, Api.ACTION_REFRESH);
+        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_REFRESH);
+    }
+
+    @Override
+    public void onPagerSelect(String category) {
+        mPageNo = 0;
+        mCurrCategory = category;
+        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
     }
 }

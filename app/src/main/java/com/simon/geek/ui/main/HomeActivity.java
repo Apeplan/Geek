@@ -24,7 +24,7 @@ import com.simon.agiledevelop.utils.ImgLoadHelper;
 import com.simon.geek.GlobalConstant;
 import com.simon.geek.R;
 import com.simon.geek.ui.dribbble.ShotsFragment;
-import com.simon.geek.ui.images.ImagesFragment;
+import com.simon.geek.ui.images.ImagesContainerFragment;
 import com.simon.geek.ui.user.SettingsActivity;
 import com.simon.geek.util.DribbblePrefs;
 
@@ -133,7 +133,7 @@ public class HomeActivity extends BaseActivity {
                     mToolbar.setTitle(item.getTitle());
                     fragment = ShotsFragment.newInstance();
                 } else if (itemId == R.id.nav_images) {
-                    fragment = ImagesFragment.newInstance();
+                    fragment = ImagesContainerFragment.newInstance();
                 } else if (itemId == R.id.nav_settings) {
                     startIntent(SettingsActivity.class);
                 }
