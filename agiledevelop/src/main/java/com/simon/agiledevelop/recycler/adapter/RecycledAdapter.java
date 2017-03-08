@@ -45,10 +45,8 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
         .Adapter<H> {
 
     public static final int TYPE_HEADER = 0xBFFD0D8; // 头部标识
-    public static final int TYPE_ITEM = -0xBFFD0D8; // 头部标识
     public static final int TYPE_FOOTER = 0xBFFD0D9; // 尾部标识
     public static final int TYPE_LOADING = 0xBFFD0DA; // 加载标识
-    public static final int TYPE_EMPTY = 0xBFFD0DB; // 加载标识
 
     private static final int STATE_LOADING = 0x4F5dA2; // 正在加载
     private static final int STATE_NOMORE = 0x4F5dA3; // 没有更多数据
@@ -122,9 +120,6 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
             case TYPE_LOADING:
                 baseViewHolder = getLoadingView(parent);
                 break;
-            case TYPE_EMPTY:
-                baseViewHolder = null;
-                break;
             default:
                 baseViewHolder = onCreateDefViewHolder(parent, viewType);
 
@@ -137,11 +132,10 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
         int viewType = holder.getItemViewType();
 
         switch (viewType) {
-//            case 0:
-//                if (mData.size() != 0)
-//                    convert(holder, mData.get(holder.getLayoutPosition() - getHeaderLayoutCount
-// ()));
-//                break;
+            case 0:
+                if (mData.size() != 0)
+                    convert(holder, mData.get(holder.getLayoutPosition() - getHeaderLayoutCount()));
+                break;
             case TYPE_LOADING:
                 addLoadMore(holder);
                 LLog.d(": type= " + TYPE_LOADING);
@@ -149,10 +143,6 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
             case TYPE_HEADER:
                 LLog.d(": type= " + TYPE_HEADER);
                 break;
-            case TYPE_EMPTY:
-                LLog.d(": type= " + TYPE_EMPTY);
-                break;
-
             case TYPE_FOOTER:
                 LLog.d(": type= " + TYPE_FOOTER);
                 break;
@@ -252,45 +242,6 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
         return LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
     }
 
-    /*@Override
-    public int getItemViewType(int position) {
-        if (mHeaderLayout != null && position < getHeaderLayoutCount()) {
-            return TYPE_HEADER;
-        }
-
-        if (mData.size() == 0) {
-            if (getHeaderLayoutCount() != 0) {
-                return TYPE_HEADER;
-            } else if (getFooterLayoutCount() != 0) {
-                return TYPE_FOOTER;
-            } else {
-                return TYPE_EMPTY;
-            }
-        } else if (mFooterLayout != null && position == mData.size() + getHeaderLayoutCount()) {
-            return TYPE_FOOTER;
-        } else if (mData.size() != 0 && position == mData.size() + getHeaderLayoutCount() +
-                getFooterLayoutCount()) {
-            return TYPE_LOADING;
-        } else {
-            return getDefItemViewType(position - getHeaderLayoutCount());
-        }
-
-       *//* if (mData.size() == 0 && (getHeaderLayoutCount() != 0 || getFooterLayoutCount() != 0)) {
-            if (getHeaderLayoutCount() != 0) {
-                return TYPE_HEADER;
-            } else {
-                return TYPE_FOOTER;
-            }
-        } else if (mFooterLayout != null && position == mData.size() + getHeaderLayoutCount()) {
-            return TYPE_FOOTER;
-        } else if (mData.size() != 0 && position == mData.size() + getHeaderLayoutCount() +
-                getFooterLayoutCount()) {
-            return TYPE_LOADING;
-        } else {
-            return getDefItemViewType(position - getHeaderLayoutCount());
-        }*//*
-
-    }*/
     @Override
     public int getItemViewType(int position) {
 
@@ -306,27 +257,7 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
             return TYPE_FOOTER;
         }
 
-        if (isEmpty()) {
-            return TYPE_EMPTY;
-        }
-
         return getDefItemViewType(position - getHeaderLayoutCount());
-
-       /* if (mData.size() == 0 && (getHeaderLayoutCount() != 0 || getFooterLayoutCount() != 0)) {
-            if (getHeaderLayoutCount() != 0) {
-                return TYPE_HEADER;
-            } else {
-                return TYPE_FOOTER;
-            }
-        } else if (mFooterLayout != null && position == mData.size() + getHeaderLayoutCount()) {
-            return TYPE_FOOTER;
-        } else if (mData.size() != 0 && position == mData.size() + getHeaderLayoutCount() +
-                getFooterLayoutCount()) {
-            return TYPE_LOADING;
-        } else {
-            return getDefItemViewType(position - getHeaderLayoutCount());
-        }*/
-
     }
 
     /**
@@ -357,12 +288,11 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
 
     protected int getDefItemViewType(int position) {
         return super.getItemViewType(position);
-//        return TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        int loadMore = isLoadMore() ? 1 : 0;
+        int loadMore = getLoadMoreViewCount();
         int count = mData.size() + loadMore + getHeaderLayoutCount() + getFooterLayoutCount();
 
         return count;
@@ -443,6 +373,17 @@ public abstract class RecycledAdapter<T, H extends RecycledViewHolder> extends R
 
     public int getFooterLayoutCount() {
         return mFooterLayout == null ? 0 : 1;
+    }
+
+    public int getLoadMoreViewCount() {
+        if (mLoadMoreListener == null || !mLoadingMoreEnable) {
+            return 0;
+        }
+
+        if (mData.size() == 0) {
+            return 0;
+        }
+        return 1;
     }
 
     public void loadComplete() {

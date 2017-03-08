@@ -99,6 +99,8 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
             mAdapter.openAnimation(RecycledAdapter.SCALEIN);
             mAdapter.setLoadMoreEnable(true);
             mAdapter.setOnLoadMoreListener(this);
+
+            mRecyclerView.setAdapter(mAdapter);
         }
 
         mPresenter = new ShotsPresenter(this);
@@ -229,8 +231,9 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
             mLoadingDialog.dismiss();
         }
 
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewData(shotsList);
+//        mAdapter.appendData(shotsList);
 
     }
 

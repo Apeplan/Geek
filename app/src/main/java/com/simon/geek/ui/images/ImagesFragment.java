@@ -85,8 +85,10 @@ public class ImagesFragment extends BaseFragment<ImagesPresenter> implements Ima
 
     @Override
     public void showImages(List<BDImageEntity> images) {
-
-        mRecyclerView.setAdapter(mAdapter);
+        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+        if (null == adapter) {
+            mRecyclerView.setAdapter(mAdapter);
+        }
         mAdapter.setNewData(images);
     }
 
