@@ -2,9 +2,9 @@ package com.simon.geek.ui.images;
 
 import android.text.TextUtils;
 
-import com.simon.agiledevelop.recycler.RecycledViewHolder;
-import com.simon.agiledevelop.recycler.adapter.RecycledAdapter;
-import com.simon.agiledevelop.utils.ImgLoadHelper;
+import com.simon.common.recycled.RecycledAdapter;
+import com.simon.common.recycled.RecycledViewHolder;
+import com.simon.common.utils.ImgLoadHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.model.BDImageEntity;
 import com.simon.geek.widget.PLAImageView;
@@ -17,13 +17,14 @@ import com.simon.geek.widget.PLAImageView;
  * @email hanzx1024@gmail.com
  */
 
-public class ImagesAdapter extends RecycledAdapter<BDImageEntity, RecycledViewHolder> {
+public class ImagesAdapter extends RecycledAdapter<BDImageEntity> {
     public ImagesAdapter() {
-        super(R.layout.item_images);
+        super(R.layout.item_images, null);
     }
 
+
     @Override
-    protected void convert(RecycledViewHolder holder, BDImageEntity item) {
+    protected void bindDataToView(RecycledViewHolder holder, BDImageEntity item) {
         if (null != item) {
             PLAImageView plaImageView = holder.getView(R.id.pimv_image);
             String thumbnail_url = item.getThumbnail_url();

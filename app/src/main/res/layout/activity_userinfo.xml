@@ -20,7 +20,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.simon.agiledevelop.state.StateView
+    <com.simon.common.state.StateView
         android:id="@+id/stateView_userinfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -143,5 +143,5 @@
                 android:text="Simon Han"/>
 
         </LinearLayout>
-    </com.simon.agiledevelop.state.StateView>
+    </com.simon.common.state.StateView>
 </LinearLayout>

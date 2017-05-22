@@ -1,1 +1,1 @@
-include ':app', ':agiledevelop'
+include ':app', ':mvp_frame', ':common'

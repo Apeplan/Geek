@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.simon.agiledevelop.state.StateView
+<com.simon.common.state.StateView
     android:id="@+id/stateView_detail"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -196,4 +196,4 @@
             app:layout_anchorGravity="bottom|start"/>-->
 
     </android.support.design.widget.CoordinatorLayout>
-</com.simon.agiledevelop.state.StateView>
+</com.simon.common.state.StateView>

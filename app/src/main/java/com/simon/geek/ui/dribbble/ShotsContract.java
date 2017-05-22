@@ -1,7 +1,7 @@
 package com.simon.geek.ui.dribbble;
 
-import com.simon.agiledevelop.mvpframe.MvpView;
 import com.simon.geek.data.model.ShotEntity;
+import com.simon.mvp_frame.BaseView;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ShotsContract {
 
-    interface View extends MvpView<ShotsPresenter> {
+    interface View extends BaseView {
 
         void renderShotsList(List<ShotEntity> shotsList);
 

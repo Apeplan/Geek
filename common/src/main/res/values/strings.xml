@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">common</string>
+    <string name="listview_loading">正在加载&#8230;</string>
+    <string name="nomore_loading">&#045;&#045;&#160;已加载全部&#160;&#045;&#045;</string>
+    <string name="loading_done">加载完成</string>
+
+    <string name="state_loading_message">正在加载...</string>
+    <string name="state_error_msg">啊呜~网络不给力啊</string>
+    <string name="state_empty_msg">没有更多内容了</string>
+    <string name="state_network_exception">啊呜~请求出错了</string>
+    <string name="state_again">重新加载</string>
+    <string name="state_retry">轻触屏幕重试</string>
+    <string name="state_empty">暂时没有数据</string>
+    <string name="state_unauth">你还没有登录</string>
+    <string name="state_auth">去登录</string>
+    <string name="loading">正在加载中...</string>
+
+    <string name="behavior_bottom">com.simon.common.widget.behavior.BottomBehavior</string>
+    <string name="behavior_title">com.simon.common.widget.behavior.TitleBehavior</string>
+</resources>

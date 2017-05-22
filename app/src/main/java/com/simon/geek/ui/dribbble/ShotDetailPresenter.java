@@ -1,12 +1,17 @@
 package com.simon.geek.ui.dribbble;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.ResultSubscriber;
-import com.simon.agiledevelop.log.LLog;
+import android.support.annotation.NonNull;
+
+import com.simon.common.log.LLog;
+import com.simon.common.utils.ToastHelper;
+import com.simon.geek.GeekApp;
 import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.ShotEntity;
+import com.simon.mvp_frame.ResultSubscriber;
+import com.simon.mvp_frame.RxPresenter;
 
 import rx.Observable;
+
 
 /**
  * Created by: Simon
@@ -14,12 +19,12 @@ import rx.Observable;
  * Created on: 2016/8/31 17:46
  */
 
-public class ShotDetailPresenter extends RxPresenter<ShotDetailContract.View, ShotEntity> {
+public class ShotDetailPresenter extends RxPresenter<ShotDetailContract.View> {
 
-    public ShotDetailPresenter(ShotDetailContract.View shotsView) {
-        attachView(shotsView);
-        shotsView.setPresenter(this);
+    public ShotDetailPresenter(@NonNull ShotDetailContract.View view) {
+        super(view);
     }
+
 
     public void loadShot(final int action, long id) {
 
@@ -27,19 +32,19 @@ public class ShotDetailPresenter extends RxPresenter<ShotDetailContract.View, Sh
         subscribe(shot, new ResultSubscriber<ShotEntity>() {
             @Override
             public void onStartRequest() {
-                getView().showLoading(action, "");
+                showDialog();
             }
 
             @Override
             public void onEndRequest() {
                 LLog.d("onCompleted: Shot信息 请求完成");
-                getView().onCompleted(action);
+                closeDialog();
             }
 
             @Override
             public void onFailed(Throwable e) {
                 LLog.d("onCompleted: Shot信息 请求失败\t" + e.getMessage());
-                getView().onFailed(action, e.getMessage());
+                ToastHelper.showLongToast(GeekApp.context(),"");
             }
 
             @Override

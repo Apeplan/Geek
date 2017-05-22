@@ -1,12 +1,16 @@
 package com.simon.geek.ui.dribbble;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.ResultSubscriber;
-import com.simon.agiledevelop.log.LLog;
+import android.support.annotation.NonNull;
+
+import com.simon.common.log.LLog;
+import com.simon.common.utils.ToastHelper;
+import com.simon.geek.GeekApp;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.ShotEntity;
 import com.simon.geek.data.remote.DataService;
+import com.simon.mvp_frame.ResultSubscriber;
+import com.simon.mvp_frame.RxPresenter;
 
 import java.util.List;
 
@@ -18,11 +22,9 @@ import rx.Observable;
  * Created on: 2016/8/29 16:54
  */
 
-public class ShotsPresenter extends RxPresenter<ShotsContract.View, List<ShotEntity>> {
-
-    public ShotsPresenter(ShotsContract.View shotsView) {
-        attachView(shotsView);
-        shotsView.setPresenter(this);
+public class ShotsPresenter extends RxPresenter<ShotsContract.View> {
+    public ShotsPresenter(@NonNull ShotsContract.View view) {
+        super(view);
     }
 
     public void loadShotsList(int page, @DataService.ShotType String list, @DataService
@@ -35,19 +37,21 @@ public class ShotsPresenter extends RxPresenter<ShotsContract.View, List<ShotEnt
         subscribe(shotsList, new ResultSubscriber<List<ShotEntity>>() {
             @Override
             public void onStartRequest() {
-                getView().showLoading(action,"");
+                if (action == Api.ACTION_BEGIN)
+                    showDialog();
             }
 
             @Override
             public void onEndRequest() {
-                getView().onCompleted(action);
+                if (action == Api.ACTION_BEGIN)
+                    closeDialog();
                 LLog.d("onCompleted: Shots List 请求完成");
             }
 
             @Override
             public void onFailed(Throwable e) {
                 LLog.d("onCompleted: Shots List 请求失败" + e.getMessage());
-                getView().onFailed(action, e.getMessage());
+                ToastHelper.showLongToast(GeekApp.context(), e.getMessage());
             }
 
             @Override

@@ -4,35 +4,31 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.simon.agiledevelop.log.LLog;
-import com.simon.agiledevelop.mvpframe.BaseFragment;
-import com.simon.agiledevelop.recycler.adapter.RecycledAdapter;
-import com.simon.agiledevelop.recycler.listeners.OnItemClickListener;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.App;
-import com.simon.agiledevelop.utils.ToastHelper;
+import com.simon.common.recycled.BasicRecycledAdapter;
+import com.simon.common.recycled.LoadMoreRecyclerView;
+import com.simon.common.state.StateView;
+import com.simon.common.utils.StateHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.ShotEntity;
 import com.simon.geek.data.remote.DataService;
 import com.simon.geek.util.DialogHelp;
 import com.simon.geek.widget.loadingdia.SpotsDialog;
+import com.simon.mvp_frame.BaseFragmentWithUIContract;
 
 import java.util.List;
 
 
-public class ShotsFragment extends BaseFragment<ShotsPresenter> implements ShotsContract.View,
-        RecycledAdapter.LoadMoreListener {
+public class ShotsFragment extends BaseFragmentWithUIContract implements ShotsContract.View,
+        LoadMoreRecyclerView.LoadMoreListener {
 
     private int mPageNo = 1;
-    private RecyclerView mRecyclerView;
+    private LoadMoreRecyclerView mRecyclerView;
     private ShotsAdapter mAdapter;
     private ShotsPresenter mPresenter;
     private
@@ -46,6 +42,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
     String sort = "";
     private SpotsDialog mLoadingDialog;
     private SwipeRefreshLayout mRefreshLayout;
+    private StateView mStateView;
 
     public static ShotsFragment newInstance() {
         ShotsFragment fragment = new ShotsFragment();
@@ -55,24 +52,15 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.fragment_shots;
     }
 
     @Override
-    protected ShotsPresenter getPresenter() {
-        return mPresenter;
-    }
-
-    @Override
-    protected StateView getLoadingView(View view) {
-        return (StateView) view.findViewById(R.id.stateView_loading);
-    }
-
-    @Override
-    protected void initView(LayoutInflater inflater, View view) {
+    protected void findViews() {
+        mStateView = findViewById(R.id.stateView_loading);
         setHasOptionsMenu(true);
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        mRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         mRefreshLayout.setColorSchemeResources(R.color.purple_500, R.color.blue_500, R.color
                 .orange_500, R.color.pink_500);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -83,39 +71,37 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
             }
         });
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.xrv_shots);
+        mRecyclerView = findViewById(R.id.xrv_shots);
+        mRecyclerView.setLoadMoreListener(this);
+    }
+
+    @Override
+    protected void initObjects() {
+        mPresenter = new ShotsPresenter(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setRecycleChildrenOnDetach(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.setLoadMoreListener(this);
 //        RecyclerView可以设置自己所需要的ViewHolder数量，
 //        只有超过这个数量的detached ViewHolder才会丢进ViewPool中与别的RecyclerView共享。默认是2
 //        mRecyclerView.setItemViewCacheSize(5);
         if (mAdapter == null) {
             mAdapter = new ShotsAdapter();
             mRecyclerView.setRecycledViewPool(mAdapter.getPool());
-
-            mAdapter.openAnimation(RecycledAdapter.SCALEIN);
-            mAdapter.setLoadMoreEnable(true);
-            mAdapter.setOnLoadMoreListener(this);
-
             mRecyclerView.setAdapter(mAdapter);
         }
-
-        mPresenter = new ShotsPresenter(this);
     }
 
     @Override
-    protected void initEventAndData() {
-        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+    protected void initData() {
+        mAdapter.setOnItemClickListener(new BasicRecycledAdapter.OnItemClickListener() {
             @Override
-            protected void onItemClick(RecycledAdapter adapter, RecyclerView recyclerView, View
-                    view, int position) {
-                ShotEntity shots = mAdapter.getItem(position);
-                Bundle bundle = new Bundle();
-                bundle.putLong("shotId", shots.getId());
-                startIntent(ShotDetailActivity.class, bundle);
+            public void onItemClick(View view, int position) {
+                ShotEntity shot = mAdapter.getItem(position);
+                ShotDetailActivity.start(getActivity(),shot.getId());
             }
         });
 
@@ -226,44 +212,38 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
 
     @Override
     public void renderShotsList(List<ShotEntity> shotsList) {
-        showContent();
+        StateHelper.showContent(mStateView);
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
-
-//        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setNewData(shotsList);
-//        mAdapter.appendData(shotsList);
-
+        mAdapter.addAllAndNotifyChanged(shotsList, true);
     }
 
     @Override
     public void renderMoreShotsList(List<ShotEntity> shotsList) {
         if (null != mAdapter) {
-            mAdapter.appendData(shotsList);
+            mAdapter.addAllAndNotifyChanged(shotsList, false);
         }
-        mAdapter.loadComplete();
+        mRecyclerView.loadMoreComplete();
     }
 
     @Override
     public void renderRefrshShotsList(List<ShotEntity> shotsList) {
         if (null != mAdapter) {
-            List<ShotEntity> data = mAdapter.getData();
-            data.clear();
-            mAdapter.setNewData(shotsList);
+            mAdapter.addAllAndNotifyChanged(shotsList, true);
         }
         mRefreshLayout.setRefreshing(false);
     }
 
-    @Override
+    /*@Override
     public void onEmpty(String msg) {
-        showEmtry(msg, null);
+        StateHelper.showEmtry(mStateView, msg, null);
     }
 
     @Override
     public void showLoading(int action, String msg) {
         if (Api.ACTION_BEGIN == action) {
-            showDialog();
+            StateHelper.showDialog(mStateView);
         }
     }
 
@@ -280,7 +260,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
     @Override
     public void setPresenter(ShotsPresenter presenter) {
 
-    }
+    }*/
 
     @Override
     public void onLoadMore() {
@@ -288,7 +268,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
         request(Api.ACTION_MORE, false);
     }
 
-    private void showDialog() {
+    private void showCustomDialog() {
         if (mLoadingDialog == null) {
             mLoadingDialog = DialogHelp.getLoadingDialog(getActivity(), "正在加载...");
         }
@@ -297,7 +277,7 @@ public class ShotsFragment extends BaseFragment<ShotsPresenter> implements Shots
         }
     }
 
-    public void hideDialog() {
+    public void hideCustomDialog() {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }

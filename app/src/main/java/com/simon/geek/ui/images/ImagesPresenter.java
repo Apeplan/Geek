@@ -1,12 +1,16 @@
 package com.simon.geek.ui.images;
 
-import com.simon.agiledevelop.ResultSubscriber;
-import com.simon.agiledevelop.log.LLog;
-import com.simon.agiledevelop.mvpframe.RxPresenter;
+import android.support.annotation.NonNull;
+
+import com.simon.common.log.LLog;
+import com.simon.common.utils.ToastHelper;
+import com.simon.geek.GeekApp;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.BDEntity;
 import com.simon.geek.data.model.BDImageEntity;
+import com.simon.mvp_frame.ResultSubscriber;
+import com.simon.mvp_frame.RxPresenter;
 
 import java.util.List;
 
@@ -20,11 +24,10 @@ import rx.Observable;
  * @email hanzx1024@gmail.com
  */
 
-public class ImagesPresenter extends RxPresenter<ImagesContract.View, BDEntity> {
+public class ImagesPresenter extends RxPresenter<ImagesContract.View> {
 
-    public ImagesPresenter(ImagesContract.View view) {
-        attachView(view);
-        view.setPresenter(this);
+    public ImagesPresenter(@NonNull ImagesContract.View view) {
+        super(view);
     }
 
     public void getImages(String tag1, String tag2, int page, int row, final int action) {
@@ -33,20 +36,21 @@ public class ImagesPresenter extends RxPresenter<ImagesContract.View, BDEntity> 
             @Override
             public void onStartRequest() {
                 if (action == Api.ACTION_BEGIN) {
-                    getView().showLoading(action, "");
+                    showDialog();
                 }
             }
 
             @Override
             public void onEndRequest() {
                 if (action == Api.ACTION_BEGIN) {
-                    getView().onCompleted(action);
+                    closeDialog();
                 }
             }
 
             @Override
             public void onFailed(Throwable e) {
-                getView().onFailed(action, e.getMessage());
+                ToastHelper.showLongToast(GeekApp.context(), e.getMessage());
+                getView().error("网络开小差了~");
             }
 
             @Override
@@ -63,8 +67,9 @@ public class ImagesPresenter extends RxPresenter<ImagesContract.View, BDEntity> 
                         getView().showImages(data);
                     }
                     LLog.d("images.size()=  " + data.size());
+                } else {
+                    getView().empty("什么都没有哦~");
                 }
-
             }
         });
     }

@@ -2,8 +2,8 @@ package com.simon.geek.data.remote;
 
 import android.support.annotation.StringDef;
 
-import com.simon.agiledevelop.ServiceHelper;
-import com.simon.agiledevelop.log.LLog;
+import com.simon.common.ServiceHelper;
+import com.simon.common.log.LLog;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.SearchConverter;
 import com.simon.geek.data.model.BDEntity;

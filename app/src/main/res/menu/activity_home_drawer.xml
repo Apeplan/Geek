@@ -2,10 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_dribbble"
             android:icon="@drawable/ic_drawer_dribbble_normal"
             android:title="@string/dribbble"/>
+
         <item
             android:id="@+id/nav_images"
             android:icon="@drawable/ic_menu_gallery"

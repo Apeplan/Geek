@@ -1,6 +1,5 @@
 package com.simon.geek.ui.main;
 
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,16 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.mvpframe.Presenter;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.ImgLoadHelper;
+import com.simon.common.utils.ImgLoadHelper;
 import com.simon.geek.GlobalConstant;
 import com.simon.geek.R;
 import com.simon.geek.ui.dribbble.ShotsFragment;
 import com.simon.geek.ui.images.ImagesContainerFragment;
 import com.simon.geek.ui.user.SettingsActivity;
 import com.simon.geek.util.DribbblePrefs;
+import com.simon.mvp_frame.BaseActivity;
 
 /**
  * Created by: Simon
@@ -45,22 +42,12 @@ public class HomeActivity extends BaseActivity {
     private TextView mTv_email;
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.activity_home;
     }
 
     @Override
-    protected Presenter getPresenter() {
-        return null;
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return null;
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void findViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
@@ -101,11 +88,16 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void initEventAndData() {
+    protected void initObjects() {
+
+    }
+
+    @Override
+    protected void initData() {
         mImv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startIntent(AvatarActivity.class);
+                AvatarActivity.start(HomeActivity.this);
             }
         });
 
@@ -118,7 +110,6 @@ public class HomeActivity extends BaseActivity {
 
             }
         });
-
     }
 
     private void setNavigationSwitchContent(NavigationView navigationView) {
@@ -129,13 +120,13 @@ public class HomeActivity extends BaseActivity {
                 int itemId = item.getItemId();
                 item.setChecked(true);
                 Fragment fragment = null;
+                mToolbar.setTitle(item.getTitle());
                 if (itemId == R.id.nav_dribbble) {
-                    mToolbar.setTitle(item.getTitle());
                     fragment = ShotsFragment.newInstance();
                 } else if (itemId == R.id.nav_images) {
                     fragment = ImagesContainerFragment.newInstance();
                 } else if (itemId == R.id.nav_settings) {
-                    startIntent(SettingsActivity.class);
+                    SettingsActivity.start(HomeActivity.this);
                 }
                 if (null != fragment) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,

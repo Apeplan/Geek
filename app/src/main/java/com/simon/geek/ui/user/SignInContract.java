@@ -1,15 +1,17 @@
 package com.simon.geek.ui.user;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.mvpframe.MvpView;
+import com.simon.mvp_frame.BaseView;
 
 /**
- * Created by Simon Han on 2016/8/20.
+ *
+ * Created by: Simon
+ * Created on: 2016/8/20 17:00
+ * Email: hanzhanxi@01zhuanche.com
  */
 
 public interface SignInContract {
 
-    interface View extends MvpView<RxPresenter> {
+    interface View extends BaseView {
         /**
          * 登录成功
          */

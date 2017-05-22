@@ -15,11 +15,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <View
-            android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_height="25dp"/>
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -46,7 +41,7 @@
         android:layout_margin="16dp"
         android:tint="@color/white_main"
         app:backgroundTint="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_action_arrow_up"
-        app:layout_behavior="com.simon.geek.widget.navigationbar.behavior.BehaviorScrollZoomFab"/>
+        app:layout_behavior="com.simon.geek.widget.navigationbar.behavior.BehaviorScrollZoomFab"
+        app:srcCompat="@drawable/ic_action_arrow_up"/>
 
 </android.support.design.widget.CoordinatorLayout>

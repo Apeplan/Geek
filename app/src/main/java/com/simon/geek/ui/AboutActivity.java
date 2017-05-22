@@ -1,38 +1,36 @@
 package com.simon.geek.ui;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.mvpframe.Presenter;
-import com.simon.agiledevelop.state.StateView;
 import com.simon.geek.R;
+import com.simon.mvp_frame.BaseActivity;
 
 public class AboutActivity extends BaseActivity {
 
+    public static void start(Context context) {
+        Intent starter = new Intent(context, AboutActivity.class);
+        context.startActivity(starter);
+    }
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.activity_about;
     }
 
     @Override
-    protected Presenter getPresenter() {
-        return null;
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return null;
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void findViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setCommonBackToolBack(toolbar, "关于");
     }
 
     @Override
-    protected void initEventAndData() {
+    protected void initObjects() {
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 }

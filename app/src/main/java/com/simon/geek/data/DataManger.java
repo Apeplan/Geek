@@ -1,6 +1,6 @@
 package com.simon.geek.data;
 
-import com.simon.agiledevelop.ServiceHelper;
+import com.simon.common.ServiceHelper;
 import com.simon.geek.data.model.BDEntity;
 import com.simon.geek.data.model.ShotEntity;
 import com.simon.geek.data.model.TokenEntity;
@@ -14,7 +14,10 @@ import rx.Observable;
 import rx.functions.Func1;
 
 /**
- * Created by Simon Han on 2016/8/20.
+ *
+ * Created by: Simon
+ * Created on: 2016/8/20 16:59
+ * Email: hanzhanxi@01zhuanche.com
  */
 
 public class DataManger {

@@ -1,22 +1,27 @@
 package com.simon.geek.ui.user;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.ResultSubscriber;
-import com.simon.agiledevelop.log.LLog;
+import android.support.annotation.NonNull;
+
+import com.simon.common.log.LLog;
+import com.simon.common.utils.ToastHelper;
+import com.simon.geek.GeekApp;
 import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.User;
+import com.simon.mvp_frame.ResultSubscriber;
+import com.simon.mvp_frame.RxPresenter;
 
 import rx.Observable;
 
 /**
- * Created by Simon Han on 2016/9/17.
+ *
+ * Created by: Simon
+ * Created on: 2016/9/17 16:55
+ * Email: hanzhanxi@01zhuanche.com
  */
 
-public class UserInfoPresenter extends RxPresenter<UserInfoContract.View, User> {
-
-    public UserInfoPresenter(UserInfoContract.View view) {
-        attachView(view);
-        view.setPresenter(this);
+public class UserInfoPresenter extends RxPresenter<UserInfoContract.View> {
+    public UserInfoPresenter(@NonNull UserInfoContract.View view) {
+        super(view);
     }
 
     public void loadUserInfo(final int action, long userId) {
@@ -25,18 +30,18 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.View, User> 
         subscribe(usersInfo, new ResultSubscriber<User>() {
             @Override
             public void onStartRequest() {
-                getView().showLoading(action, "");
+                showDialog();
             }
 
             @Override
             public void onEndRequest() {
                 LLog.d("onCompleted: 用户信息请求完成");
-                getView().onCompleted(action);
+               closeDialog();
             }
 
             @Override
             public void onFailed(Throwable e) {
-                getView().onFailed(action, e.getMessage());
+                ToastHelper.showLongToast(GeekApp.context(),e.getMessage());
             }
 
             @Override

@@ -2,15 +2,11 @@ package com.simon.geek.ui.images;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import com.simon.agiledevelop.mvpframe.BaseFragment;
-import com.simon.agiledevelop.mvpframe.Presenter;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.ResHelper;
+import com.simon.common.utils.ResHelper;
 import com.simon.geek.R;
 import com.simon.geek.widget.EnableScrollViewPager;
+import com.simon.mvp_frame.BaseFragmentWithUIContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,35 +19,32 @@ import java.util.List;
  * @email hanzx1024@gmail.com
  */
 
-public class ImagesContainerFragment extends BaseFragment {
+public class ImagesContainerFragment extends BaseFragmentWithUIContract {
 
     private TabLayout mTabLayout;
     private EnableScrollViewPager mViewPager;
 
     public static ImagesContainerFragment newInstance() {
-
         Bundle args = new Bundle();
-
         ImagesContainerFragment fragment = new ImagesContainerFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.fragment_images_container;
     }
 
     @Override
-    protected Presenter getPresenter() {
-        return null;
+    protected void findViews() {
+        mTabLayout = findViewById(R.id.tabLayout);
+        mViewPager = findViewById(R.id.vp_images);
+        mViewPager.setOffscreenPageLimit(7);
     }
 
     @Override
-    protected void initView(LayoutInflater inflater, View view) {
-        mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        mViewPager = (EnableScrollViewPager) view.findViewById(R.id.vp_images);
-
+    protected void initObjects() {
         List<String> categoryList = getCategoryList();
 
         for (int i = 0, size = categoryList.size(); i < size; i++) {
@@ -64,23 +57,14 @@ public class ImagesContainerFragment extends BaseFragment {
         mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-    }
-
-    @Override
-    protected StateView getLoadingView(View view) {
-        return null;
-    }
-
-    @Override
-    protected void initEventAndData() {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                String category = tab.getText().toString();
-                int position = mTabLayout.getSelectedTabPosition();
-                ImagesFragment fragment = (ImagesFragment) mViewPager.getAdapter()
-                        .instantiateItem(mViewPager, position);
-                fragment.onPagerSelect(category);
+//                String category = tab.getText().toString();
+//                int position = mTabLayout.getSelectedTabPosition();
+//                ImagesFragment fragment = (ImagesFragment) mViewPager.getAdapter()
+//                        .instantiateItem(mViewPager, position);
+//                fragment.onPagerSelect(category);
             }
 
             @Override
@@ -93,6 +77,12 @@ public class ImagesContainerFragment extends BaseFragment {
 
             }
         });
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
 
@@ -105,4 +95,5 @@ public class ImagesContainerFragment extends BaseFragment {
         }
         return categoryList;
     }
+
 }

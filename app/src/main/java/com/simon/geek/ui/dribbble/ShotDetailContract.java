@@ -1,7 +1,7 @@
 package com.simon.geek.ui.dribbble;
 
-import com.simon.agiledevelop.mvpframe.MvpView;
 import com.simon.geek.data.model.ShotEntity;
+import com.simon.mvp_frame.BaseView;
 
 /**
  * Created by: Simon
@@ -11,7 +11,7 @@ import com.simon.geek.data.model.ShotEntity;
 
 public interface ShotDetailContract {
 
-    interface View extends MvpView<ShotDetailPresenter> {
+    interface View extends BaseView {
         void showShot(ShotEntity shotsEntity);
     }
 }

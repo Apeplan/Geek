@@ -1,8 +1,9 @@
 package com.simon.geek.ui.images;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @email hanzx1024@gmail.com
  */
 
-public class ImageContainerPagerAdapter extends FragmentPagerAdapter {
+public class ImageContainerPagerAdapter extends FragmentStatePagerAdapter {
     private List<String> mCategoryList = null;
 
     public ImageContainerPagerAdapter(FragmentManager fm, List<String> categoryList) {
@@ -24,7 +25,12 @@ public class ImageContainerPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ImagesFragment.newInstance();
+        ImagesFragment fragment = new ImagesFragment();
+        Bundle args = new Bundle();
+        String s = mCategoryList.get(position);
+        args.putString("type",s);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

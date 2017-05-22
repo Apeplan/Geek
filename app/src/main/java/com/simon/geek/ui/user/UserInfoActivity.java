@@ -9,21 +9,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.ImgLoadHelper;
+import com.simon.common.state.StateView;
+import com.simon.common.utils.ImgLoadHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.User;
 import com.simon.geek.util.DialogHelp;
 import com.simon.geek.widget.loadingdia.SpotsDialog;
+import com.simon.mvp_frame.BaseActivityWithUIContract;
 
 /**
- * Created by Simon Han on 2016/9/17.
+ *
+ * Created by: Simon
+ * Created on: 2016/9/17 16:52
+ * Email: hanzhanxi@01zhuanche.com
  */
 
-public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements UserInfoContract
+public class UserInfoActivity extends BaseActivityWithUIContract implements UserInfoContract
         .View {
 
     private ImageView mImv_avatar;
@@ -40,26 +42,18 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     private SpotsDialog mLoadingDialog;
     private TextView mUserType;
+    private UserInfoPresenter mPresenter;
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.activity_userinfo;
     }
 
     @Override
-    protected UserInfoPresenter getPresenter() {
-        return new UserInfoPresenter(this);
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return (StateView) findViewById(R.id.stateView_userinfo);
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void findViews() {
+        StateView stateView = (StateView) findViewById(R.id.stateView_userinfo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        String name = getBundle().getString("name");
+        String name = getIntent().getExtras().getString("name");
         setCommonBackToolBack(toolbar, name);
 
         mImv_avatar = (ImageView) findViewById(R.id.imv_avatar);
@@ -77,8 +71,13 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     }
 
     @Override
-    protected void initEventAndData() {
-        Bundle bundle = getBundle();
+    protected void initObjects() {
+        mPresenter = new UserInfoPresenter(this);
+    }
+
+    @Override
+    protected void initData() {
+        Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             long userId = bundle.getLong("userId");
             mPresenter.loadUserInfo(Api.ACTION_BEGIN, userId);
@@ -87,8 +86,8 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void showUserInfo(User user) {
-        showContent();
-        hideDialog();
+//        showContent();
+//        hideDialog();
 
         ImgLoadHelper.loadAvatar(user.avatar_url, mImv_avatar);
         mTv_username.setText(user.name);
@@ -127,36 +126,9 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     }
 
-    @Override
-    public void onEmpty(String msg) {
-        showEmtry(msg, null);
-        hideDialog();
-    }
 
-    @Override
-    public void showLoading(int action, String msg) {
-        if (Api.ACTION_BEGIN == action) {
-            showDialog();
-        }
-    }
 
-    @Override
-    public void onFailed(int action, String msg) {
-        showError(msg, null);
-        hideDialog();
-    }
-
-    @Override
-    public void onCompleted(int action) {
-
-    }
-
-    @Override
-    public void setPresenter(RxPresenter presenter) {
-
-    }
-
-    private void showDialog() {
+    private void showCustomDialog() {
         if (mLoadingDialog == null) {
             mLoadingDialog = DialogHelp.getLoadingDialog(this, "正在加载...");
         }
@@ -165,7 +137,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
         }
     }
 
-    public void hideDialog() {
+    public void hideCustomDialog() {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }

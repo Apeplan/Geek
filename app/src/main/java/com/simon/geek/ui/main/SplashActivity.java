@@ -1,7 +1,6 @@
 package com.simon.geek.ui.main;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.animation.Animation;
@@ -10,44 +9,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.mvpframe.Presenter;
-import com.simon.agiledevelop.state.StateView;
 import com.simon.geek.R;
+import com.simon.mvp_frame.BaseActivity;
 
 public class SplashActivity extends BaseActivity {
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            startActivity(new Intent(SplashActivity.this,HomeActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             finish();
         }
     };
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.activity_splash;
     }
 
     @Override
-    protected Presenter getPresenter() {
-        return null;
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return null;
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void initEventAndData() {
+    protected void findViews() {
         LinearLayout rootView = (LinearLayout) findViewById(R.id.activity_splash);
         ImageView drib_logo = (ImageView) findViewById(R.id.imv_drib_logo);
         final TextView tv_logo = (TextView) findViewById(R.id.tv_drib);
@@ -67,4 +49,15 @@ public class SplashActivity extends BaseActivity {
             }
         }).start();
     }
+
+    @Override
+    protected void initObjects() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
 }

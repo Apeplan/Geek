@@ -1,16 +1,18 @@
 package com.simon.geek.ui.user;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.mvpframe.MvpView;
 import com.simon.geek.data.model.User;
+import com.simon.mvp_frame.BaseView;
 
 /**
- * Created by Simon Han on 2016/9/17.
+ *
+ * Created by: Simon
+ * Created on: 2016/9/17 16:56
+ * Email: hanzhanxi@01zhuanche.com
  */
 
 public interface UserInfoContract {
 
-    interface View extends MvpView<RxPresenter> {
+    interface View extends BaseView {
         void showUserInfo(User user);
     }
 

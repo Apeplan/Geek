@@ -1,4 +1,4 @@
-<com.simon.agiledevelop.state.StateView
+<com.simon.common.state.StateView
     android:id="@+id/stateView_loading"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <com.simon.common.recycled.LoadMoreRecyclerView
                 android:id="@+id/xrv_shots"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -25,4 +25,4 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
-</com.simon.agiledevelop.state.StateView>
+</com.simon.common.state.StateView>

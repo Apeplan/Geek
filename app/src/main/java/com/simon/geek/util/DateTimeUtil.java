@@ -2,7 +2,7 @@ package com.simon.geek.util;
 
 import android.text.TextUtils;
 
-import com.simon.agiledevelop.log.LLog;
+import com.simon.common.log.LLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

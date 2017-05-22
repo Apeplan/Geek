@@ -6,11 +6,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.simon.agiledevelop.recycler.RecycledViewHolder;
-import com.simon.agiledevelop.recycler.adapter.RecycledAdapter;
-import com.simon.agiledevelop.utils.App;
-import com.simon.agiledevelop.utils.ImgLoadHelper;
-import com.simon.agiledevelop.utils.ScreenHelper;
+import com.simon.common.recycled.RecycledAdapter;
+import com.simon.common.recycled.RecycledViewHolder;
+import com.simon.common.utils.App;
+import com.simon.common.utils.ImgLoadHelper;
+import com.simon.common.utils.ScreenHelper;
 import com.simon.geek.GeekApp;
 import com.simon.geek.R;
 import com.simon.geek.data.model.ShotEntity;
@@ -24,7 +24,7 @@ import com.simon.geek.util.StringUtil;
  * Created on: 2016/2/25 15:50
  */
 
-public class ShotsAdapter extends RecycledAdapter<ShotEntity, RecycledViewHolder> {
+public class ShotsAdapter extends RecycledAdapter<ShotEntity> {
 
     private RecyclerView.RecycledViewPool mPool = new RecyclerView.RecycledViewPool() {
         @Override
@@ -47,11 +47,17 @@ public class ShotsAdapter extends RecycledAdapter<ShotEntity, RecycledViewHolder
     };
 
     public ShotsAdapter() {
-        super(R.layout.item_shot);
+        super(R.layout.item_shot, null);
+    }
+
+    public RecyclerView.RecycledViewPool getPool() {
+//        RecycledViewPool可以自主控制需要缓存的ViewHolder数量
+//        mPool.setMaxRecycledViews(itemViewType, number);
+        return mPool;
     }
 
     @Override
-    protected void convert(RecycledViewHolder holder, final ShotEntity shot) {
+    protected void bindDataToView(RecycledViewHolder holder, ShotEntity shot) {
         if (null != shot) {
             final long id = shot.getId();
             String title = shot.getTitle();
@@ -69,7 +75,7 @@ public class ShotsAdapter extends RecycledAdapter<ShotEntity, RecycledViewHolder
             int width = ScreenHelper.getScreenWidth(App.INSTANCE);
             int height = width * 3 / 4;
 
-            ImgLoadHelper.imageW_H(StringUtil.isEmpty(hidpi) ? normal : hidpi,imageView,width,
+            ImgLoadHelper.imageW_H(StringUtil.isEmpty(hidpi) ? normal : hidpi, imageView, width,
                     height, R.drawable.dribbble_p);
 
             ImgLoadHelper.loadAvatar(avatar_url, avatar);
@@ -91,15 +97,7 @@ public class ShotsAdapter extends RecycledAdapter<ShotEntity, RecycledViewHolder
             holder.setText(R.id.tv_views_count, shot.getViews_count() + "");
             holder.setText(R.id.tv_comments_count, shot.getComments_count() + "");
             holder.setText(R.id.tv_likes_count, shot.getLikes_count() + "");
-
         }
     }
-
-    public RecyclerView.RecycledViewPool getPool() {
-//        RecycledViewPool可以自主控制需要缓存的ViewHolder数量
-//        mPool.setMaxRecycledViews(itemViewType, number);
-        return mPool;
-    }
-
 }
 

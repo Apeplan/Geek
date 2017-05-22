@@ -9,12 +9,12 @@
     android:fitsSystemWindows="true"
     tools:context="com.simon.geek.ui.main.AvatarActivity">
 
-    <com.simon.agiledevelop.widget.AvatarImageView
+    <com.simon.common.widget.AvatarImageView
         android:id="@+id/imv_clip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <com.simon.agiledevelop.widget.AvatarLayout
+    <com.simon.common.widget.AvatarLayout
         android:id="@+id/id_ClipView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

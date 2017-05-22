@@ -11,24 +11,24 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    //配置keystore签名
-    signingConfigs {
-        release {
-            storeFile file("geek.jks")
-            storePassword "920410"
-            keyAlias "奇客"
-            keyPassword "920410"
-        }
-    }
+//    //配置keystore签名
+//    signingConfigs {
+//        release {
+//            storeFile file("geek.jks")
+//            storePassword "920410"
+//            keyAlias "奇客"
+//            keyPassword "920410"
+//        }
+//    }
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             buildConfigField "boolean", "LOG_DEBUG", "true"
         }
 
         release {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             buildConfigField "boolean", "LOG_DEBUG", "false"
 
             minifyEnabled true
@@ -77,9 +77,8 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    compile project(':agiledevelop')
     compile('com.squareup.sqlbrite:sqlbrite:1.1.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
+    compile project(':common')
 }

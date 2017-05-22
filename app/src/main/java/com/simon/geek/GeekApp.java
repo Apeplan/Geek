@@ -3,7 +3,7 @@ package com.simon.geek;
 import android.app.Application;
 import android.content.Context;
 
-import com.simon.agiledevelop.utils.PreferencesHelper;
+import com.simon.common.utils.PreferencesHelper;
 import com.simon.geek.data.model.User;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;

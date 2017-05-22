@@ -1,7 +1,8 @@
 package com.simon.geek.ui.dribbble;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,11 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.App;
-import com.simon.agiledevelop.utils.ImgLoadHelper;
-import com.simon.agiledevelop.utils.ScreenHelper;
+import com.simon.common.state.StateView;
+import com.simon.common.utils.App;
+import com.simon.common.utils.ImgLoadHelper;
+import com.simon.common.utils.ScreenHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.ShotEntity;
@@ -29,6 +29,7 @@ import com.simon.geek.util.DialogHelp;
 import com.simon.geek.util.StringUtil;
 import com.simon.geek.widget.TagGroup;
 import com.simon.geek.widget.loadingdia.SpotsDialog;
+import com.simon.mvp_frame.BaseActivityWithUIContract;
 
 import java.io.File;
 
@@ -38,8 +39,8 @@ import java.io.File;
  * Created on: 2016/8/31 17:44
  */
 
-public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implements
-        ShotDetailContract.View {
+public class ShotDetailActivity extends BaseActivityWithUIContract implements ShotDetailContract
+        .View, View.OnClickListener {
 
     private Toolbar mToolbar;
     private ImageView mDetailPic;// 详情大图
@@ -65,24 +66,19 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
     private int mBuckets_count;
     private ShotEntity mShot;
 
+    public static void start(Context context, long shotId) {
+        Intent starter = new Intent(context, ShotDetailActivity.class);
+        starter.putExtra("shotId", shotId);
+        context.startActivity(starter);
+    }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.activity_shot_detail;
     }
 
     @Override
-    protected ShotDetailPresenter getPresenter() {
-        return null;
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return (StateView) findViewById(R.id.stateView_detail);
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void findViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -108,35 +104,37 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
         mTag_group = (TagGroup) findViewById(R.id.tag_group);
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
+    }
 
+    @Override
+    protected void initObjects() {
+        StateView stateView = (StateView) findViewById(R.id.stateView_detail);
         mPresenter = new ShotDetailPresenter(this);
     }
 
     @Override
-    protected void initEventAndData() {
+    protected void initData() {
+        mShotId = getIntent().getLongExtra("shotId", 0);
+        mPresenter.loadShot(Api.ACTION_BEGIN, mShotId);
+    }
 
+    @Override
+    protected void setListener() {
+        super.setListener();
         mDetailPic.setOnClickListener(this);
         mFab.setOnClickListener(this);
-
-        Bundle bundle = getBundle();
-        if (null != bundle) {
-            mShotId = bundle.getLong("shotId");
-            mPresenter.loadShot(Api.ACTION_BEGIN, mShotId);
-        }
     }
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+
     }
 
     @Override
     public void showShot(ShotEntity shot) {
-
-        hideDialog();
-
+//        hideDialog();
         mShot = shot;
-        showContent();
+//        showContent();
         mTitle = shot.getTitle();
         mCollapsingToolbarLayout.setTitle(mTitle);
         String normal = shot.getImages().getNormal();
@@ -181,33 +179,6 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
     }
 
     @Override
-    public void onEmpty(String msg) {
-        showEmtry(msg, null);
-    }
-
-    @Override
-    public void showLoading(int action, String msg) {
-        if (Api.ACTION_BEGIN == action) {
-            showDialog();
-        }
-    }
-
-    @Override
-    public void onFailed(int flag, String msg) {
-        showError(msg, null);
-    }
-
-    @Override
-    public void onCompleted(int action) {
-
-    }
-
-    @Override
-    public void setPresenter(ShotDetailPresenter presenter) {
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
         return super.onCreateOptionsMenu(menu);
@@ -219,7 +190,7 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
         if (id == R.id.action_share) {
             shareMsg("ShotDetailActivity", mTitle, "", mImgUrl);
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -266,7 +237,7 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
         return "image/jpeg";
     }
 
-    private void showDialog() {
+    private void showCustomDialog() {
         if (mLoadingDialog == null) {
             mLoadingDialog = DialogHelp.getLoadingDialog(this, "正在加载...");
         }
@@ -275,7 +246,7 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
         }
     }
 
-    public void hideDialog() {
+    public void hideCustomDialog() {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
@@ -283,11 +254,13 @@ public class ShotDetailActivity extends BaseActivity<ShotDetailPresenter> implem
 
     @Override
     public void onBackPressed() {
-        mPresenter.detachView(false);
+        mPresenter.unsubscribe();
         if (null != mLoadingDialog) {
             mLoadingDialog.dismiss();
             mLoadingDialog = null;
         }
         super.onBackPressed();
     }
+
+
 }

@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="rules-0.5">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/agiledevelop/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/agiledevelop/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/eb084c58415ecb678f4f6e9cbfeba76a3573f85b/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/eb084c58415ecb678f4f6e9cbfeba76a3573f85b/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://E:/AndroidStudiosdk/extras/android/m2repository/com/android/support/test/rules/0.5/rules-0.5-sources.jar!/" />
+      <root url="jar://D:/SDK/Android/extras/android/m2repository/com/android/support/test/rules/0.5/rules-0.5-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

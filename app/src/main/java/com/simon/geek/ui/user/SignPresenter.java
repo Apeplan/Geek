@@ -1,24 +1,26 @@
 package com.simon.geek.ui.user;
 
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.ResultSubscriber;
-import com.simon.agiledevelop.log.LLog;
+import android.support.annotation.NonNull;
+
+import com.simon.common.log.LLog;
 import com.simon.geek.data.DataManger;
 import com.simon.geek.data.model.User;
 import com.simon.geek.util.DribbblePrefs;
+import com.simon.mvp_frame.ResultSubscriber;
+import com.simon.mvp_frame.RxPresenter;
 
 import rx.Observable;
 
 /**
- * Created by Simon Han on 2016/8/20.
+ *
+ * Created by: Simon
+ * Created on: 2016/8/20 16:51
+ * Email: hanzhanxi@01zhuanche.com
  */
 
-public class SignPresenter extends RxPresenter<SignInContract.View, User> {
-
-
-    public SignPresenter(SignInContract.View view) {
-        attachView(view);
-        view.setPresenter(this);
+public class SignPresenter extends RxPresenter<SignInContract.View> {
+    public SignPresenter(@NonNull SignInContract.View view) {
+        super(view);
     }
 
     public void getUserToken(final String token) {
@@ -32,12 +34,10 @@ public class SignPresenter extends RxPresenter<SignInContract.View, User> {
             @Override
             public void onEndRequest() {
                 LLog.d("onCompleted: 请求用户信息执行完成");
-                getView().onCompleted(0);
             }
 
             @Override
             public void onFailed(Throwable e) {
-                getView().onFailed(0, e.getMessage());
                 LLog.d("onError: 请求用户信息  " + e.getMessage());
             }
 
@@ -47,7 +47,7 @@ public class SignPresenter extends RxPresenter<SignInContract.View, User> {
                     DribbblePrefs.getInstance().setLoggedInUser(user);
                     getView().signSuccess();
                 } else {
-                    getView().onFailed(0, "");
+                    LLog.d("onError: 请求用户信息 失败 ");
                 }
             }
         });

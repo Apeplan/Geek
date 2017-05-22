@@ -1,5 +1,7 @@
 package com.simon.geek.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -7,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.simon.agiledevelop.widget.AvatarImageView;
-import com.simon.agiledevelop.widget.AvatarLayout;
+import com.simon.common.widget.AvatarImageView;
+import com.simon.common.widget.AvatarLayout;
 import com.simon.geek.R;
 
 public class AvatarActivity extends AppCompatActivity implements AvatarLayout.OnClipBitmapListener {
@@ -16,6 +18,12 @@ public class AvatarActivity extends AppCompatActivity implements AvatarLayout.On
 
     private ImageView mImageView;
     AvatarLayout rectOrCircleLayout;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, AvatarActivity.class);
+        context.startActivity(starter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

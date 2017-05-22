@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Geek.iml" filepath="$PROJECT_DIR$/Geek.iml" />
-      <module fileurl="file://$PROJECT_DIR$/agiledevelop/agiledevelop.iml" filepath="$PROJECT_DIR$/agiledevelop/agiledevelop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvp_frame/mvp_frame.iml" filepath="$PROJECT_DIR$/mvp_frame/mvp_frame.iml" />
     </modules>
   </component>
 </project>

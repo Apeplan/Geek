@@ -1,19 +1,15 @@
 package com.simon.geek.ui.images;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import com.simon.agiledevelop.mvpframe.BaseFragment;
-import com.simon.agiledevelop.recycler.adapter.RecycledAdapter;
-import com.simon.agiledevelop.state.StateView;
+import com.simon.common.recycled.LoadMoreRecyclerView;
+import com.simon.common.state.StateView;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.data.model.BDImageEntity;
-import com.simon.geek.listener.OnPagerSelectedListener;
+import com.simon.mvp_frame.BaseFragmentWithUIContract;
 
 import java.util.List;
 
@@ -25,116 +21,97 @@ import java.util.List;
  * @email hanzx1024@gmail.com
  */
 
-public class ImagesFragment extends BaseFragment<ImagesPresenter> implements ImagesContract.View,
-        RecycledAdapter.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener,
-        OnPagerSelectedListener {
+public class ImagesFragment extends BaseFragmentWithUIContract implements ImagesContract.View,
+        SwipeRefreshLayout.OnRefreshListener, LoadMoreRecyclerView
+                .LoadMoreListener {
 
     private SwipeRefreshLayout mRefreshLayout;
-    private RecyclerView mRecyclerView;
+    private LoadMoreRecyclerView mRecyclerView;
     private ImagesAdapter mAdapter;
     private int mPageNo = 0;
     private int mPageRow = 20;
     private String mCurrCategory = "汽车";
-
-    public static ImagesFragment newInstance() {
-        Bundle args = new Bundle();
-        ImagesFragment fragment = new ImagesFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ImagesPresenter mPresenter;
+    private StateView mStateView;
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.fragment_images;
     }
 
     @Override
-    protected ImagesPresenter getPresenter() {
-        return new ImagesPresenter(this);
-    }
-
-    @Override
-    protected void initView(LayoutInflater inflater, View view) {
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+    protected void findViews() {
+        mStateView = findViewById(R.id.stateView_loading);
+        mRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        mRecyclerView = findViewById(R.id.rv_images);
         mRefreshLayout.setColorSchemeResources(R.color.purple_500, R.color.blue_500, R.color
                 .orange_500, R.color.pink_500);
         mRefreshLayout.setOnRefreshListener(this);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_images);
+        mRecyclerView.setLoadMoreListener(this);
+        mRecyclerView = findViewById(R.id.rv_images);
         StaggeredGridLayoutManager sm = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(sm);
         if (mAdapter == null) {
             mAdapter = new ImagesAdapter();
-
-            mAdapter.openAnimation(RecycledAdapter.SCALEIN);
-            mAdapter.setLoadMoreEnable(true);
-            mAdapter.setOnLoadMoreListener(this);
         }
     }
 
     @Override
-    protected StateView getLoadingView(View view) {
-        return (StateView) view.findViewById(R.id.stateView_loading);
+    protected void initObjects() {
+        mCurrCategory = getArguments().getString("type");
+
+        mPresenter = new ImagesPresenter(this);
     }
 
     @Override
-    protected void initEventAndData() {
-        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (isVisible) {
+            mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
+        }
     }
 
     @Override
     public void showImages(List<BDImageEntity> images) {
+        mStateView.setState(StateView.STATE_CONTENT);
         RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
         if (null == adapter) {
             mRecyclerView.setAdapter(mAdapter);
         }
-        mAdapter.setNewData(images);
+        mAdapter.addAllAndNotifyChanged(images, true);
     }
 
     @Override
     public void renderMore(List<BDImageEntity> images) {
         if (null != mAdapter) {
-            mAdapter.appendData(images);
+            mAdapter.addAllAndNotifyChanged(images, false);
         }
-        mAdapter.loadComplete();
+        mRecyclerView.loadMoreComplete();
     }
 
     @Override
     public void renderRefresh(List<BDImageEntity> images) {
+        mStateView.setState(StateView.STATE_CONTENT);
         if (null != mAdapter) {
-            List<BDImageEntity> data = mAdapter.getData();
-            data.clear();
-            mAdapter.setNewData(images);
+            mAdapter.addAllAndNotifyChanged(images, true);
         }
         mRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showLoading(int action, String msg) {
-        showLoading(msg);
+    public void empty(String msg) {
+        mStateView.setState(StateView.STATE_EMPTY);
     }
 
     @Override
-    public void onEmpty(String msg) {
-        showEmtry(msg, null);
-    }
-
-    @Override
-    public void onFailed(int action, String msg) {
-        if (action != Api.ACTION_MORE) {
-            showError(msg, null);
-        }
-    }
-
-    @Override
-    public void onCompleted(int action) {
-        showContent();
-    }
-
-    @Override
-    public void setPresenter(ImagesPresenter presenter) {
-
+    public void error(String msg) {
+        mStateView.setState(StateView.STATE_ERROR);
     }
 
     @Override
@@ -149,10 +126,4 @@ public class ImagesFragment extends BaseFragment<ImagesPresenter> implements Ima
         mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_REFRESH);
     }
 
-    @Override
-    public void onPagerSelect(String category) {
-        mPageNo = 0;
-        mCurrCategory = category;
-        mPresenter.getImages(mCurrCategory, "全部", mPageNo, mPageRow, Api.ACTION_BEGIN);
-    }
 }

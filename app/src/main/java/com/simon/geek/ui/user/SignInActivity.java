@@ -3,7 +3,6 @@ package com.simon.geek.ui.user;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,30 +10,37 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.simon.agiledevelop.mvpframe.BaseActivity;
-import com.simon.agiledevelop.mvpframe.RxPresenter;
-import com.simon.agiledevelop.state.StateView;
-import com.simon.agiledevelop.utils.App;
-import com.simon.agiledevelop.utils.ToastHelper;
+import com.simon.common.utils.App;
+import com.simon.common.utils.ToastHelper;
 import com.simon.geek.R;
 import com.simon.geek.data.Api;
 import com.simon.geek.ui.main.HomeActivity;
+import com.simon.mvp_frame.BaseActivity;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Created by Simon Han on 2016/8/20.
+ *
+ * Created by: Simon
+ * Created on: 2016/8/20 17:01
+ * Email: hanzhanxi@01zhuanche.com
  */
 
-public class SignInActivity extends BaseActivity<SignPresenter> implements SignInContract.View {
+public class SignInActivity extends BaseActivity implements SignInContract.View {
 
     private LinearLayout mLoading;
     private WebView mWebView;
+    private SignPresenter mPresenter;
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected int getLayoutResId() {
+        return R.layout.activity_sign_dribbble;
+    }
+
+    @Override
+    protected void findViews() {
         mLoading = (LinearLayout) findViewById(R.id.ll_signin_loading);
         mWebView = (WebView) findViewById(R.id.wv_signin);
         mWebView.getSettings().setJavaScriptEnabled(true);//支持javascript
@@ -44,23 +50,13 @@ public class SignInActivity extends BaseActivity<SignPresenter> implements SignI
     }
 
     @Override
-    protected void initEventAndData() {
-
+    protected void initObjects() {
+        mPresenter = new SignPresenter(this);
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_sign_dribbble;
-    }
+    protected void initData() {
 
-    @Override
-    protected SignPresenter getPresenter() {
-        return new SignPresenter(this);
-    }
-
-    @Override
-    protected StateView getLoadingView() {
-        return null;
     }
 
     @Override
@@ -70,33 +66,6 @@ public class SignInActivity extends BaseActivity<SignPresenter> implements SignI
         setResult(RESULT_OK, new Intent(SignInActivity.this, HomeActivity.class));
         finish();
     }
-
-    @Override
-    public void onEmpty(String msg) {
-
-    }
-
-    @Override
-    public void showLoading(int action, String msg) {
-
-    }
-
-    @Override
-    public void onFailed(int action, String msg) {
-        ToastHelper.showLongToast(App.INSTANCE,"登录失败");
-        mLoading.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onCompleted(int action) {
-
-    }
-
-    @Override
-    public void setPresenter(RxPresenter presenter) {
-
-    }
-
 
     class OAuthWebViewClient extends WebViewClient {
         @Override
