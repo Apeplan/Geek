@@ -8,6 +8,7 @@
     <com.simon.geek.widget.PLAImageView
         android:id="@+id/pimv_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/px_2_dp_4"/>
 
 </RelativeLayout>

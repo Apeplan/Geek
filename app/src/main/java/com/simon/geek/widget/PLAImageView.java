@@ -19,8 +19,8 @@ package com.simon.geek.widget;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 /**
@@ -33,7 +33,7 @@ import android.widget.RelativeLayout;
  *
  * @author Maurycy Wojtowicz
  */
-public class PLAImageView extends ImageView {
+public class PLAImageView extends AppCompatImageView {
     private Bitmap currentBitmap;
     private ImageChangeListener imageChangeListener;
     private boolean scaleToWidth = false; // this flag determines if should
@@ -129,7 +129,8 @@ public class PLAImageView extends ImageView {
         } else if (heightMode == MeasureSpec.EXACTLY || heightMode == MeasureSpec.AT_MOST) {
             scaleToWidth = false;
         } else
-            throw new IllegalStateException("width or height needs to be set to match_parent or a specific dimension");
+            throw new IllegalStateException("width or height needs to be set to match_parent or a" +
+                    " specific dimension");
 
         if (imageWidth == 0) {
             // nothing to measure

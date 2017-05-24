@@ -19,6 +19,7 @@
 
     <string name="dribbble">Dribbble</string>
     <string name="images">图片</string>
+    <string name="gank">干货</string>
     <string name="about">关于</string>
 
     <string name="limit_hot">最热</string>
@@ -34,8 +35,8 @@
     <string name="double_click_exit">再次点击退出精美设计</string>
 
     <string name="share">分享</string>
-    <string name="menu_sort">Sort</string>
-    <string name="menu_filter">Filter</string>
+    <string name="menu_sort">排序</string>
+    <string name="menu_filter">筛选</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- content authorities -->
