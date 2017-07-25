@@ -5,7 +5,7 @@ package com.simon.mvp_frame.lifecycle;
  * <p>
  * Created by: Simon
  * Created on: 2017/4/28 15:25
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public interface LifecycleObserver {

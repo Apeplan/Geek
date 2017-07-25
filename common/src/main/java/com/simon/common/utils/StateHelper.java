@@ -9,7 +9,7 @@ import com.simon.common.state.StateView;
 /**
  * Created by: Simon
  * Created on: 2017/5/3 17:59
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class StateHelper {

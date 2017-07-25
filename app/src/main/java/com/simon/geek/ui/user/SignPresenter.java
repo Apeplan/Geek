@@ -15,7 +15,7 @@ import rx.Observable;
  *
  * Created by: Simon
  * Created on: 2016/8/20 16:51
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class SignPresenter extends RxPresenter<SignInContract.View> {

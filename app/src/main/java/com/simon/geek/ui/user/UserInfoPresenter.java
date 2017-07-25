@@ -16,7 +16,7 @@ import rx.Observable;
  *
  * Created by: Simon
  * Created on: 2016/9/17 16:55
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class UserInfoPresenter extends RxPresenter<UserInfoContract.View> {

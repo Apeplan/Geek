@@ -67,10 +67,12 @@ dependencies {
     //    为"单Activity ＋ 多Fragment","多模块Activity + 多Fragment"架构而生，帮你大大简化使用过程，轻松解决各种复杂嵌套等问题，修复了官方Fragment库中存在的一些BUG。
     //    compile 'me.yokeyword:fragmentation:0.7.9'
     //    compile 'com.getbase:floatingactionbutton:1.10.1'
-    compile 'com.android.support:cardview-v7:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support:support-annotations:25.3.1'
     compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
@@ -81,4 +83,5 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     compile project(':common')
+    compile 'org.mockito:mockito-core:2.8.9'
 }

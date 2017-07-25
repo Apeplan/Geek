@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by: Simon
  * Created on: 2017/4/28 15:39
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class LifecycleObserverCompat implements LifecycleObservable, ComponentLifecycleObserver {

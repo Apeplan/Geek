@@ -9,7 +9,7 @@ import rx.Scheduler;
  * <p>
  * Created by: Simon
  * Created on: 2017/4/28 14:56
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public interface BaseSchedulerProvider {

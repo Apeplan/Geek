@@ -22,7 +22,7 @@ import com.simon.mvp_frame.BaseActivityWithUIContract;
  *
  * Created by: Simon
  * Created on: 2016/9/17 16:52
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class UserInfoActivity extends BaseActivityWithUIContract implements UserInfoContract

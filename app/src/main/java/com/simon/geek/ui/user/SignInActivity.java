@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * Created by: Simon
  * Created on: 2016/8/20 17:01
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class SignInActivity extends BaseActivity implements SignInContract.View {

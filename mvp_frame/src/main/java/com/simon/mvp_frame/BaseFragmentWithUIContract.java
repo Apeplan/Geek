@@ -7,7 +7,7 @@ import android.widget.Toast;
  *
  * Created by: Simon
  * Created on: 15/10/12 17:27
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 public abstract class BaseFragmentWithUIContract extends BaseFragment implements UIContract {
     /**

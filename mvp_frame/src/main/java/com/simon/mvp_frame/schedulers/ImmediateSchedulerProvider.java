@@ -10,7 +10,7 @@ import rx.schedulers.Schedulers;
  * <p>
  * Created by: Simon
  * Created on: 2017/4/28 15:06
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class ImmediateSchedulerProvider implements BaseSchedulerProvider {

@@ -10,7 +10,7 @@ import com.simon.mvp_frame.wedgit.CustomProgressDialog;
  *
  * Created by: Simon
  * Created on: 15/10/29 17:05
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 public abstract class BaseActivityWithUIContract extends BaseActivity implements UIContract {
     /**

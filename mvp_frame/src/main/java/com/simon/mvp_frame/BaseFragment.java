@@ -21,7 +21,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by: Simon
  * Created on: 15/10/12 17:28
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 public abstract class BaseFragment extends Fragment implements LifecycleObservable {
 

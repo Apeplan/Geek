@@ -12,7 +12,7 @@ import com.simon.mvp_frame.R;
 /**
  * Created by: Simon
  * Created on: 2017/5/15 14:36
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class CustomProgressBar extends ProgressBar {

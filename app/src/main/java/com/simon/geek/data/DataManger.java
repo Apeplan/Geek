@@ -17,7 +17,7 @@ import rx.functions.Func1;
  *
  * Created by: Simon
  * Created on: 2016/8/20 16:59
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public class DataManger {

@@ -14,7 +14,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by: Simon
  * Created on: 2017/4/28 16:35
- * Email: hanzhanxi@01zhuanche.com
+ * Email: hanzx1024@gmail.com
  */
 
 public abstract class BaseViewPresenter<V extends View & BaseView & LifecycleObservable>
